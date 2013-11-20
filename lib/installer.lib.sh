@@ -162,7 +162,7 @@ function installationDeviceSelection ()
     info "A dedicated SCSI, SATA or PATA disk is required for the installation"
     info "The disk has to be at least $osbdDiskMinimalSpace GB in size\n"
 
-    local availableDevices=`deviceListAllBlockDevices '^(s|h)d[a-z]$'`
+    local availableDevices=`deviceListAllBlockDevices '^(s|h|v)d[a-z]$'`
 
     if test -z "$availableDevices"; then
         error "No supported devices are available for installation"
