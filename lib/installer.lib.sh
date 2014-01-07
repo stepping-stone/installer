@@ -359,7 +359,7 @@ function lvmCleanup ()
     info "Checking for existing volume groups and physical volumes"
 
     # Set a liberal LVM device filter to get all existing physical volumes
-    local deviceFilterLiberal='/dev/(s|h)d[a-z][0-9]*'
+    local deviceFilterLiberal='/dev/(h|s|v)d[a-z][0-9]*'
 
     debug "Setting a liberal LVM device filter: '${deviceFilterLiberal}'"
     if ! lvmConfigSetDeviceFilter "${deviceFilterLiberal}"; then
