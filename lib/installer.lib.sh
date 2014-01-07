@@ -743,7 +743,10 @@ function bootLoaderInstallation ()
     header "Boot Loader Installation"
 
     info "Detecting the grub boot partition name"
-    local bootPartition=`grubDetectBootPartition "$osbdBootPartitionMagicFile"`
+
+    local bootPartition
+    bootPartition=`grubDetectBootPartition "$osbdBootPartitionMagicFile"`
+
     if test $? -ne 0; then 
         error "Unable to detect the grub boot partition name"
         die
