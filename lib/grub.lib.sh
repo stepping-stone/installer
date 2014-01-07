@@ -36,8 +36,9 @@ function grubDetectBootPartition ()
     local searchFilePath="$1"
 
     local bootPartition=`echo "find $searchFilePath" | \
-        $GRUB_CMD --batch --no-floppy 2>/dev/null | \
-	grep -E '^ \(hd[0-9],[0-9]\)$'`
+        $GRUB_CMD --batch --no-floppy \
+            --device-map=/boot/grub/device.map 2>/dev/null | \
+	    grep -E '^ \(hd[0-9],[0-9]\)$'`
 
     if test -z "$bootPartition"; then
         return 1
@@ -53,7 +54,8 @@ function grubSetup ()
     local setupPartition="$2"
 
     echo -e "root ${rootPartition}\nsetup ${setupPartition}\nquit" | \
-        $GRUB_CMD --batch 2>&1 | grep --color=never "Error"
+        $GRUB_CMD --batch --device-map=/boot/grub/device.map 2>&1 | \
+            grep --color=never "Error"
 
     if test $? -eq 0; then
         # grub had errors which were caught by grep

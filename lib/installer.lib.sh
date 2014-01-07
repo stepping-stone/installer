@@ -744,6 +744,27 @@ function bootLoaderInstallation ()
 
     info "Detecting the grub boot partition name"
 
+    # grub is unable to automatically map between a "BIOS" an OS drive
+    # if the choosen installation device is a virtio device (/dev/vd[a-z]).
+    # Thus, it has to be explicitly added to the device map file.
+    if [[ "${osbdInstallDevicePath}" =~ ^/dev/vd[a-z]$ ]]; then 
+        debug "Adding ${osbdInstallDevicePath} to the grub device map file"
+
+	local createdByString="# Created by the ${osbdProjectName} "
+	      createdByString+="${osbdProgramName} v${osbdProgramVersion} "
+	      createdByString+="on $(date +%F)"
+
+	echo "${createdByString}" > /boot/grub/device.map
+        echo -e "(hd0)\t${osbdInstallDevicePath}" >> /boot/grub/device.map
+
+	# Also add it to the install filesystem
+	if test -d "${osbdRootMount}/boot/grub"; then
+	    echo "${createdByString}" > /boot/grub/device.map
+	    echo -e "(hd0)\t${osbdInstallDevicePath}" >> \
+                ${osbdRootMount}/boot/grub/device.map
+	fi
+    fi
+
     local bootPartition
     bootPartition=`grubDetectBootPartition "$osbdBootPartitionMagicFile"`
 
