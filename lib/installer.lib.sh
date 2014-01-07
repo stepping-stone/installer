@@ -750,19 +750,19 @@ function bootLoaderInstallation ()
     if [[ "${osbdInstallDevicePath}" =~ ^/dev/vd[a-z]$ ]]; then 
         debug "Adding ${osbdInstallDevicePath} to the grub device map file"
 
-	local createdByString="# Created by the ${osbdProjectName} "
-	      createdByString+="${osbdProgramName} v${osbdProgramVersion} "
-	      createdByString+="on $(date +%F)"
+        local createdByString="# Created by the ${osbdProjectName} "
+              createdByString+="${osbdProgramName} v${osbdProgramVersion} "
+              createdByString+="on $(date +%F)"
 
-	echo "${createdByString}" > /boot/grub/device.map
+        echo "${createdByString}" > /boot/grub/device.map
         echo -e "(hd0)\t${osbdInstallDevicePath}" >> /boot/grub/device.map
 
-	# Also add it to the install filesystem
-	if test -d "${osbdRootMount}/boot/grub"; then
-	    echo "${createdByString}" > /boot/grub/device.map
-	    echo -e "(hd0)\t${osbdInstallDevicePath}" >> \
+        # Also add it to the install filesystem
+        if test -d "${osbdRootMount}/boot/grub"; then
+            echo "${createdByString}" > /boot/grub/device.map
+            echo -e "(hd0)\t${osbdInstallDevicePath}" >> \
                 ${osbdRootMount}/boot/grub/device.map
-	fi
+        fi
     fi
 
     local bootPartition
@@ -1587,39 +1587,39 @@ function processArguments ()
 {
     while getopts ":cmsh" option; do
         case $option in
-	    c )
-	        osbdSkipCpuCheck="yes"
-		debug "Skipping CPU requirement checks"
-		;;
-	    
-	    m )
-	        osbdSkipMemoryCheck="yes"
-		debug "Skipping memory requirement checks"
-		;;
+            c )
+                osbdSkipCpuCheck="yes"
+                debug "Skipping CPU requirement checks"
+            ;;
 
-	    s )
-	        osbdSkipCpuCheck="yes"
-		osbdSkipMemoryCheck="yes"
-		debug "Skipping CPU and memory requirement checks"
-		;;
+            m )
+                osbdSkipMemoryCheck="yes"
+                debug "Skipping memory requirement checks"
+            ;;
 
-	    h )
-	        printUsage
-		exit 0
-		;;
-	
-	    \? )
-	        error "Invalid option '-${OPTARG}' specified"
-		printUsage
-		die
-		;;
+            s )
+                osbdSkipCpuCheck="yes"
+                osbdSkipMemoryCheck="yes"
+                debug "Skipping CPU and memory requirement checks"
+            ;;
 
-	    : )
-	        error "Missing argument for '-${OPTARG}'"
-		printUsage
-		die
-		;;
-	esac
+            h )
+                printUsage
+                exit 0
+            ;;
+
+            \? )
+                error "Invalid option '-${OPTARG}' specified"
+                printUsage
+                die
+            ;;
+
+            : )
+                error "Missing argument for '-${OPTARG}'"
+                printUsage
+                die
+            ;;
+        esac
     done
 }
 
@@ -1628,10 +1628,10 @@ function printUsage ()
     cat << EOF
 Usage: $( ${BASENAME_CMD} "$0" ) [OPTION]...
 
-  -c			Skip CPU requirement checks
-  -m			Skip memory requirement checks
-  -s			Skip both, CPU and memory requirement checks
-  -h			Display this help and exit
+  -c            Skip CPU requirement checks
+  -m            Skip memory requirement checks
+  -s            Skip both, CPU and memory requirement checks
+  -h            Display this help and exit
 EOF
 }
 
