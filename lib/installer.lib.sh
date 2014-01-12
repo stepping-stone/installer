@@ -759,7 +759,7 @@ function bootLoaderInstallation ()
 
         # Also add it to the install filesystem
         if test -d "${osbdRootMount}/boot/grub"; then
-            echo "${createdByString}" > /boot/grub/device.map
+            echo "${createdByString}" > ${osbdRootMount}/boot/grub/device.map
             echo -e "(hd0)\t${osbdInstallDevicePath}" >> \
                 ${osbdRootMount}/boot/grub/device.map
         fi
