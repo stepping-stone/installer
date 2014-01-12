@@ -1585,11 +1585,16 @@ function finishMessage ()
 
 function processArguments ()
 {
-    while getopts ":cmsh" option; do
+    while getopts ":cdmsh" option; do
         case $option in
             c )
                 osbdSkipCpuCheck="yes"
                 debug "Skipping CPU requirement checks"
+            ;;
+
+            d )
+                export debug="yes"
+                debug "Enabling debug messages"
             ;;
 
             m )
@@ -1629,6 +1634,7 @@ function printUsage ()
 Usage: $( ${BASENAME_CMD} "$0" ) [OPTION]...
 
   -c            Skip CPU requirement checks
+  -d            Enable debug messages
   -m            Skip memory requirement checks
   -s            Skip both, CPU and memory requirement checks
   -h            Display this help and exit

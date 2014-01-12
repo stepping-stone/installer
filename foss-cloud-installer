@@ -34,8 +34,6 @@ LIB_DIR="`dirname $0`/lib"
 source ${LIB_DIR}/input-output.lib.sh
 source ${LIB_DIR}/device.lib.sh
 
-debug="no"
-
 osbdProjectName="FOSS-Cloud"
 osbdProgramName="installer"
 osbdProgramVersion=1.2.9
