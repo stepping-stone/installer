@@ -750,18 +750,20 @@ function bootLoaderInstallation ()
     if [[ "${osbdInstallDevicePath}" =~ ^/dev/vd[a-z]$ ]]; then 
         debug "Adding ${osbdInstallDevicePath} to the grub device map file"
 
+        local deviceMap="/boot/grub/device.map"
+
         local createdByString="# Created by the ${osbdProjectName} "
               createdByString+="${osbdProgramName} v${osbdProgramVersion} "
               createdByString+="on $(date +%F)"
 
-        echo "${createdByString}" > /boot/grub/device.map
-        echo -e "(hd0)\t${osbdInstallDevicePath}" >> /boot/grub/device.map
+        echo "${createdByString}" > "${deviceMap}"
+        echo -e "(hd0)\t${osbdInstallDevicePath}" >> "${deviceMap}"
 
         # Also add it to the install filesystem
         if test -d "${osbdRootMount}/boot/grub"; then
-            echo "${createdByString}" > ${osbdRootMount}/boot/grub/device.map
+            echo "${createdByString}" > "${osbdRootMount}${deviceMap}"
             echo -e "(hd0)\t${osbdInstallDevicePath}" >> \
-                ${osbdRootMount}/boot/grub/device.map
+                "${osbdRootMount}${deviceMap}"
         fi
     fi
 
