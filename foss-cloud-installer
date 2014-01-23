@@ -34,7 +34,7 @@ LIB_DIR="`dirname $0`/lib"
 source ${LIB_DIR}/input-output.lib.sh
 source ${LIB_DIR}/device.lib.sh
 
-osbdProjectName="FOSS-Cloud"
+osbdProjectName="stoney cloud"
 osbdProgramName="installer"
 osbdProgramVersion=1.2.9
 

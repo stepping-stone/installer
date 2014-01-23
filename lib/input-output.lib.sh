@@ -5,6 +5,11 @@
 #                    http://www.foss-group.de
 #                    support@foss-group.de
 #
+# Copyright (C) 2014 stepping stone GmbH
+#                    Switzerland
+#                    http://www.stepping-stone.ch
+#                    support@stepping-stone.ch
+#
 # Authors:
 #  Christian Affolter <christian.affolter@stepping-stone.ch>
 #  
@@ -35,11 +40,12 @@ function fossCloudLogo ()
 {
     # Font: slant
     cat << \EOF >&1
-         __________  __________       ________                __
-        / ____/ __ \/ ___/ ___/      / ____/ /___  __  ______/ /
-       / /_  / / / /\__ \\__ \______/ /   / / __ \/ / / / __  /
-      / __/ / /_/ /___/ /__/ /_____/ /___/ / /_/ / /_/ / /_/ /
-     /_/    \____//____/____/      \____/_/\____/\__,_/\__,_/
+             __                                 __                __
+       _____/ /_____  ____  ___  __  __   _____/ /___  __  ______/ /
+      / ___/ __/ __ \/ __ \/ _ \/ / / /  / ___/ / __ \/ / / / __  / 
+     (__  ) /_/ /_/ / / / /  __/ /_/ /  / /__/ / /_/ / /_/ / /_/ /  
+    /____/\__/\____/_/ /_/\___/\__, /   \___/_/\____/\__,_/\__,_/   
+                              /____/                                
 
 EOF
 }
@@ -52,15 +58,11 @@ function fossCloudLogoWithProgramInfo ()
     local width=50
 
     local title="${programName} v${version}"
-    local copyright="Copyright (C) 2010 - `${DATE_CMD} +%Y` FOSS-Group"
-    local url="http://www.foss-group.de"
 
     fossCloudLogo
 
     echo "`repeatCharacter ' ' $(( $width - ${#title} ))` ${title}"
     echo ""
-    echo "`repeatCharacter ' ' $(( $width - ${#copyright} ))` ${copyright}"
-    echo "`repeatCharacter ' ' $(( $width - ${#url} ))` ${url}"
 }
 
 function getFossCloudVersion ()

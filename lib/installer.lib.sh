@@ -62,7 +62,7 @@ source "${LIB_DIR}/openssh.lib.sh"
 
 function welcomeMessage ()
 {
-    header "Welcome to the ${osbdProjectName}-Installer"
+    header "Welcome to the ${osbdProjectName} Installer"
 
     info "The installer comes WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,"
     info "either expressed or implied."
