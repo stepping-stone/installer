@@ -5,6 +5,11 @@
 #                    http://www.foss-group.de
 #                    support@foss-group.de
 #
+# Copyright (C) 2014 stepping stone GmbH
+#                    Switzerland
+#                    http://www.stepping-stone.ch
+#                    support@stepping-stone.ch
+#
 # Authors:
 #  Christian Affolter <christian.affolter@stepping-stone.ch>
 #  
@@ -943,9 +948,57 @@ function networkDeviceSelection ()
         fi
 
         let i++
-   done
+    done
 
-   debug "Using ${osbdNetworkDevices[*]} for bond0"
+    debug "Using ${osbdNetworkDevices[*]} for bond0"
+
+    if [ "${osbdNetworkUseBonding}" = "yes" ]; then
+        networkBondTransmitHashPolicySelection
+    fi
+}
+
+
+function networkBondTransmitHashPolicySelection ()
+{
+    info ""
+    info "The Linux bonding driver, used for the IEEE 802.3ad (dynamic link aggregation),"
+    info "supports different transmit hash policies which are used for slave selection."
+    info ""
+    info "By default the installer configures the bonding driver to use the layer2+3"
+    info "policy. Which uses a combination of layer2 and layer3 protocol informations"
+    info "to distribute the traffic over the available slaves."
+    info "This algorithm will place all traffic to a particular network peer on the"
+    info "same slave, which is not ideal but works for all IEEE 802.3ad compatible,"
+    info "network equipment".
+    info ""
+    info "Alternatively, the driver can be configured to use the layer3+4 policy, which"
+    info "distributes multiple connections to the same peer over multiple slaves."
+    info "However, this policy is not strictly IEEE 802.3ad conform. It might lead to"
+    info "problems with your switching equipment. Choose this AT YOUR OWN RISK."
+    info "Also keep in mind, that you have to configure your switching endpoints to"
+    info "gain full advantage (ingress and egress) from this policy."
+    info ""
+    info "If you don't know which mode to choose, stay at the default of layer2+3 and"
+    info "answer the following question with 'yes'"
+
+    local bondHashPolicyConfirmed=false
+    until ${bondHashPolicyConfirmed}; do
+        info ""
+        info "Would you like to use the default, 802.3ad compliant, layer2+3 hash policy?"
+        if yesInput; then
+            osbdNetworkBondHashPolicy="layer2+3"
+            bondHashPolicyConfirmed=true
+        else
+            info ""
+            info "Would you like to use the not fully 802.3ad compliant layer3+4 hash policy?"
+            if yesInput; then
+                osbdNetworkBondHashPolicy="layer3+4"
+                bondHashPolicyConfirmed=true
+            fi
+        fi
+    done
+    
+    debug "Using ${osbdNetworkBondHashPolicy} as the bonding transmit hash policy"
 }
 
 
@@ -1304,6 +1357,7 @@ slaves_bond0="${osbdNetworkDevices[*]}"
 lacp_rate_bond0="fast"
 miimon_bond0="100"
 mode_bond0="802.3ad"
+xmit_hash_policy_bond0="${osbdNetworkBondHashPolicy}"
 carrier_timeout_bond0="15"
  
 config_bond0="null"
