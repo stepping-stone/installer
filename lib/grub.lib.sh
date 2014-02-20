@@ -37,7 +37,7 @@ function grubDetectBootPartition ()
 
     local bootPartition=`echo "find $searchFilePath" | \
         $GRUB_CMD --batch --no-floppy \
-            --device-map=/boot/grub/device.map 2>/dev/null | \
+            --device-map="${osbdRootMount}/boot/grub/device.map" 2>/dev/null | \
 	    grep -E '^ \(hd[0-9],[0-9]\)$'`
 
     if test -z "$bootPartition"; then
@@ -54,7 +54,7 @@ function grubSetup ()
     local setupPartition="$2"
 
     echo -e "root ${rootPartition}\nsetup ${setupPartition}\nquit" | \
-        $GRUB_CMD --batch --device-map=/boot/grub/device.map 2>&1 | \
+        $GRUB_CMD --batch --device-map="${osbdRootMount}/boot/grub/device.map" 2>&1 | \
             grep --color=never "Error"
 
     if test $? -eq 0; then
