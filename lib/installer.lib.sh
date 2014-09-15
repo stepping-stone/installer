@@ -91,7 +91,6 @@ function checkCPU ()
 
         AuthenticAMD)
             info 'Detected an "AMD" CPU'
-            warning "${osbdProjectName} wasn't tested on \"AMD\" CPUs"
             ;;
 
         *)
